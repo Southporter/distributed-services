@@ -5,8 +5,22 @@ edition = "2021"
 
 
 [dependencies]
-actix-web = "3"
+# actix-web = "3"
+# tokio = { version = "0.2", features = ["full"] }
 bytes = "1"
 pretty_env_logger = "0.4"
-tokio = { version = "0.2", features = ["full"] }
-tonic = { version = "0.6" }
+prost = "0.9"
+tonic = "0.6"
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "fs", "sync"] }
+
+
+[[bin]]
+name = "log-server"
+path = "src/server.rs"
+
+# [[bin]]
+# name = "log-client"
+# path = "src/client.rs"
+
+[build-dependencies]
+tonic-build = "0.6"

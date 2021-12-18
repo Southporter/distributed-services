@@ -1,4 +1,4 @@
-use actix_web::web::Bytes;
+use bytes::Bytes;
 use tokio::sync::oneshot::Sender;
 
 pub enum Message {

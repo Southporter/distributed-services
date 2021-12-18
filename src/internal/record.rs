@@ -1,4 +1,4 @@
-use actix_web::web::Bytes;
+use bytes::Bytes;
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct Record {

@@ -1,4 +1,4 @@
-use actix_web::web::Bytes;
+use bytes::Bytes;
 use std::sync::Arc;
 use tokio::sync::RwLock;
 
