@@ -95,6 +95,7 @@ name = "distributed-services"
 version = "0.1.0"
 dependencies = [
  "bytes",
+ "log",
  "pretty_env_logger",
  "prost",
  "tokio",

@@ -1,4 +1,5 @@
 use bytes::{Bytes, BytesMut};
+use logging::debug;
 use std::borrow::BorrowMut;
 use std::io::SeekFrom;
 use std::mem::size_of;
@@ -43,24 +44,24 @@ impl Store {
     }
 
     pub async fn read(&self, offset: u64) -> std::io::Result<Bytes> {
-        println!("Offset: {}", offset);
+        debug!("Offset: {}", offset);
         let mut lock = self.buffer.write().await;
         lock.flush().await?;
-        println!("Flushed");
+        debug!("Flushed");
         lock.seek(SeekFrom::Start(offset)).await?;
-        println!("Seeked");
+        debug!("Seeked");
 
         let size = lock.read_u64().await?;
-        println!("Size of record: {}", size);
+        debug!("Size of record: {}", size);
         let mut tmp_buffer = BytesMut::new();
         tmp_buffer.resize(size.try_into().unwrap(), 0u8);
-        println!("Tmp buffer: {:?}", tmp_buffer);
+        debug!("Tmp buffer: {:?}", tmp_buffer);
         lock.read_exact(&mut tmp_buffer).await?;
-        println!("Tmp buffer after read: {:?}", tmp_buffer);
+        debug!("Tmp buffer after read: {:?}", tmp_buffer);
         Ok(tmp_buffer.into())
     }
 
-    async fn close(&mut self) -> std::io::Result<()> {
+    pub async fn close(&mut self) -> std::io::Result<()> {
         let mut lock = self.buffer.write().await;
         lock.flush().await?;
         lock.shutdown().await?;

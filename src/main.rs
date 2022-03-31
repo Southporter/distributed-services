@@ -5,6 +5,10 @@ use crate::internal::server::Message;
 
 mod internal;
 
+fn main() {
+    println!("Main not callable");
+}
+
 // type ServerData = web::Data<Mutex<mpsc::Sender<Message>>>;
 
 // #[get("/{offset}")]
