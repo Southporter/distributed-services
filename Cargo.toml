@@ -9,7 +9,7 @@ bytes = "1"
 logging = { package = "log", version = "0.4" }
 pretty_env_logger = "0.4"
 prost = "0.9"
-tonic = "0.6"
+tonic = { version = "0.6", features = ["transport", "tls"] }
 tokio = { version = "1", features = ["macros", "rt-multi-thread", "fs", "sync"] }
 
 

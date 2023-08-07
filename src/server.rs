@@ -1,4 +1,7 @@
-use tonic::{transport::Server, Request, Response, Status};
+use tonic::{
+    transport::{Identity, Server, ServerTlsConfig},
+    Request, Response, Status,
+};
 
 mod log {
     tonic::include_proto!("log.v1");
@@ -39,6 +42,12 @@ impl Logger for LogServer {
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let config_path = std::env::var("CONFIG_PATH")
+        .or::<Box<dyn std::error::Error>>(Ok(String::from("/opt/oxyqueue/config")))?;
+    let cert = std::fs::read_to_string(format!("{config_path}/server.pem"))?;
+    let key = std::fs::read_to_string(format!("{config_path}/server.key"))?;
+    let tls_config = ServerTlsConfig::new().identity(Identity::from_pem(&cert, &key));
+
     let addr = "[::1]:50051".parse()?;
     let log = LogServer {
         store: RwLock::new(Store::new("./test.log").await?),
@@ -47,6 +56,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     pretty_env_logger::init();
 
     Server::builder()
+        .tls_config(tls_config)?
         .add_service(LoggerServer::new(log))
         .serve(addr)
         .await?;

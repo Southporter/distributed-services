@@ -1,0 +1,17 @@
+{
+  "CN": "ssedrick",
+  "key": {
+    "algo": "rsa",
+    "size": 2048
+  },
+  "names": [
+    {
+      "C": "US",
+      "L": "Fayetteville",
+      "ST": "AR",
+      "O": "ssedrick.github.io",
+      "OU": "dev"
+    }
+  ]
+
+}
